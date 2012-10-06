@@ -27,6 +27,9 @@ Returns JSON body."
       (kill-buffer (current-buffer)))
     json))
 
+(defun fetchmacs-parse-json-as-alist (json)
+  (let ((json-object-type 'alist))
+    (json-read-from-string json)))
 
 
 
