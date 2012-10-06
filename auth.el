@@ -41,4 +41,16 @@ Returns JSON body."
      (fetchmacs-parse-json-as-alist
       (fetchmacs-url-http-post url args)))))
 
+(defvar fetchmacs-public-key nil)
+(defvar fetchmacs-private-key nil)
+(defvar fetchmacs-author nil)
 
+(defun fetchmacs-store-keys-from-json-alist (json)
+  (let ((response (cdr (assoc 'response json)))
+        (status (cdr (assoc 'status json)))
+        (errors (cdr (assoc 'errors json))))
+    (when (string= status 'success)
+      (print status))))
+      (setq fetchmacs-public-key (cdr (assoc '_id response)))
+      (setq fetchmacs-private-key (cdr (assoc 'private_key response)))
+      (setq fetchmacs-author (cdr (assoc 'author response))))))
