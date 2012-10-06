@@ -15,6 +15,17 @@ Returns JSON body."
                               "="
                               (url-hexify-string (cdr arg))))
                     args
+                    "&"))
+        (buffer nil)
+        (json nil))
+    (setq buffer (url-retrieve-synchronously url))
+    (save-excursion
+      (set-buffer buffer)
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (setq json (buffer-substring-no-properties (point) (point-max)))
+      (kill-buffer (current-buffer)))
+    json))
 
 
 
