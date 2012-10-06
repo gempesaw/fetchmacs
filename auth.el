@@ -1,5 +1,6 @@
 (require 'url)
 (require 'json)
+(load-file "api-urls.el")
 
 http://www.fetchnotes.com/keys?
 
@@ -32,3 +33,5 @@ http://www.fetchnotes.com/keys?
 
 
 (my-url-http-post my-url my-args)
+
+()
