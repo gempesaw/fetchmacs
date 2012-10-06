@@ -31,5 +31,14 @@ Returns JSON body."
   (let ((json-object-type 'alist))
     (json-read-from-string json)))
 
+(defun fetchmacs-provision-keys-for-user (user password)
+  (let ((url (concat fetchmacs-hostname fetchmacs-provision-keys-url))
+        (args `(("name" . ,fetchmacs-project-name)
+                ("email" . ,fetchmacs-dev-email)
+                ("username" . ,user)
+                ("password" . ,password))))
+    (fetchmacs-store-keys-from-json-alist
+     (fetchmacs-parse-json-as-alist
+      (fetchmacs-url-http-post url args)))))
 
 
