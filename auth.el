@@ -39,7 +39,7 @@ Returns JSON body."
                 ("email" . ,fetchmacs-dev-email)
                 ("username" . ,user)
                 ("password" . ,password))))
-    (fetchmacs-store-keys-from-json-alist
+    (fetchmacs-set-keys-and-author
      (fetchmacs-parse-json-as-alist
       (fetchmacs-url-http-request url args "POST")))))
 
@@ -47,12 +47,11 @@ Returns JSON body."
 (defvar fetchmacs-private-key nil)
 (defvar fetchmacs-author nil)
 
-(defun fetchmacs-store-keys-from-json-alist (json)
-  (let ((response (cdr (assoc 'response json)))
-        (status (cdr (assoc 'status json)))
-        (errors (cdr (assoc 'errors json))))
+(defun fetchmacs-set-keys-and-author (json-response-as-alist)
+  (let ((response (cdr (assoc 'response json-response-as-alist)))
+        (status (cdr (assoc 'status json-response-as-alist)))
+        (errors (cdr (assoc 'errors json-response-as-alist))))
     (when (string= status 'success)
-      (print status))))
       (setq fetchmacs-public-key (cdr (assoc '_id response)))
       (setq fetchmacs-private-key (cdr (assoc 'private_key response)))
       (setq fetchmacs-author (cdr (assoc 'author response))))))
