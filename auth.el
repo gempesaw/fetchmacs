@@ -2,11 +2,11 @@
 (require 'json)
 (load-file "api-urls.el")
 
-(defun fetchmacs-url-http-post (url args)
+(defun fetchmacs-url-http-request (url args request-method)
   "Send ARGS to URL as a POST request.
 
 Returns JSON body."
-  (let ((url-request-method "POST")
+  (let ((url-request-method request-method)
         (url-request-extra-headers
          '(("Content-Type" . "application/x-www-form-urlencoded")))
         (url-request-data
@@ -39,7 +39,7 @@ Returns JSON body."
                 ("password" . ,password))))
     (fetchmacs-store-keys-from-json-alist
      (fetchmacs-parse-json-as-alist
-      (fetchmacs-url-http-post url args)))))
+      (fetchmacs-url-http-request url args "POST")))))
 
 (defvar fetchmacs-public-key nil)
 (defvar fetchmacs-private-key nil)
