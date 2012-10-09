@@ -18,7 +18,11 @@
       (kill-buffer (current-buffer)))
     json))
 
-Returns JSON body."
+(defun fetchmacs-get-json-from-http-request (url args request-method)
+  "Send ARGS to URL as a POST request; returns JSON body."
+  (when (fetchmacs-request-needs-signature url)
+    (let ((signature (fetchmacs-construct-signature args)))
+      (add-to-list 'args `("signature" . ,signature))))
   (let ((url-request-method request-method)
         (url-request-extra-headers
          '(("Content-Type" . "application/x-www-form-urlencoded")))
@@ -39,6 +43,8 @@ Returns JSON body."
       (setq json (buffer-substring-no-properties (point) (point-max)))
       (kill-buffer (current-buffer)))
     json))
+(defun fetchmacs-request-needs-signature (url)
+  (not (string= "http://www.fetchnotes.com/keys" url)))
 
 (defun fetchmacs-parse-json-as-alist (json)
   (let ((json-object-type 'alist))
