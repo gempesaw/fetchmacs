@@ -56,6 +56,18 @@ Returns JSON body."
       (setq fetchmacs-public-key (cdr (assoc '_id response)))
       (setq fetchmacs-private-key (cdr (assoc 'private_key response)))
       (setq fetchmacs-author (cdr (assoc 'author response))))))
+
+(defun fetchmacs-construct-signature (request-params-alist)
+  (let ((sorted-alist (fetchmacs-sort-alist-by-car request-params-alist))
+        (unhashed-signature nil)
+        (sorted-values nil))
+    (setq sorted-values (mapcar (lambda (key-value-pair)
+                                  (concat (cdr (car key-value-pair)) sorted-values))
+                                  sorted-alist))
+    (sha1 (concat
+           fetchmacs-private-key (mapconcat 'identity sorted-values "")))
+    ))
+
 (defun fetchmacs-sort-alist-by-car (alist)
   (let ((params nil)
         (ordered-alist nil)
