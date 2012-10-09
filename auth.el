@@ -32,6 +32,8 @@ Returns JSON body."
     (json-read-from-string json)))
 
 (defun fetchmacs-provision-keys-for-user (user password)
+  ;; TODO: change return of this function to say yes or no indicating
+  ;; whether it succeeded...?
   (let ((url (concat fetchmacs-hostname fetchmacs-provision-keys-url))
         (args `(("name" . ,fetchmacs-project-name)
                 ("email" . ,fetchmacs-dev-email)
