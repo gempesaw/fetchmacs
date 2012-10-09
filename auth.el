@@ -2,8 +2,6 @@
 (require 'json)
 (load-file "api-urls.el")
 
-(defun fetchmacs-url-http-request (url args request-method)
-  "Send ARGS to URL as a POST request.
 (defvar fetchmacs-public-key nil)
 (defvar fetchmacs-private-key nil)
 (defvar fetchmacs-author nil)
@@ -55,12 +53,7 @@ fetchnotes"
                 ("username" . ,user)
                 ("password" . ,password))))
     (fetchmacs-set-keys-and-author
-     (fetchmacs-parse-json-as-alist
-      (fetchmacs-url-http-request url args "POST")))))
-
-(defvar fetchmacs-public-key nil)
-(defvar fetchmacs-private-key nil)
-(defvar fetchmacs-author nil)
+     (fetchmacs-get-json-from-http-request url args "POST"))))
 
 (defun fetchmacs-set-keys-and-author (json-response-as-alist)
   (let ((response (cdr (assoc 'response json-response-as-alist)))
