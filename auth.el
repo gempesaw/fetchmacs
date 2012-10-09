@@ -4,6 +4,19 @@
 
 (defun fetchmacs-url-http-request (url args request-method)
   "Send ARGS to URL as a POST request.
+(defvar fetchmacs-public-key nil)
+(defvar fetchmacs-private-key nil)
+(defvar fetchmacs-author nil)
+
+(defun fetchmacs-extract-json-from-http-response (buffer)
+  (let ((json nil))
+    (save-excursion
+      (set-buffer buffer)
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (setq json (buffer-substring-no-properties (point) (point-max)))
+      (kill-buffer (current-buffer)))
+    json))
 
 Returns JSON body."
   (let ((url-request-method request-method)
