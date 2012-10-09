@@ -32,17 +32,11 @@
                               "="
                               (url-hexify-string (cdr arg))))
                     args
-                    "&"))
-        (buffer nil)
-        (json nil))
-    (setq buffer (url-retrieve-synchronously url))
-    (save-excursion
-      (set-buffer buffer)
-      (goto-char (point-min))
-      (re-search-forward "^$" nil 'move)
-      (setq json (buffer-substring-no-properties (point) (point-max)))
-      (kill-buffer (current-buffer)))
-    json))
+                    "&")))
+    (fetchmacs-parse-json-as-alist
+     (fetchmacs-extract-json-from-http-response
+      (url-retrieve-synchronously url)))))
+
 (defun fetchmacs-request-needs-signature (url)
   (not (string= "http://www.fetchnotes.com/keys" url)))
 
@@ -51,7 +45,7 @@
     (json-read-from-string json)))
 
 (defun fetchmacs-provision-keys-for-user (user password)
-"Sets the public key, private key, and author values from
+  "Sets the public key, private key, and author values from
 fetchnotes"
   ;; TODO: change return of this function to say yes or no indicating
   ;; whether it succeeded...?
