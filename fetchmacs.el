@@ -15,7 +15,7 @@
 (defvar fetchmacs-mode-hook nil)
 (put 'fetchmacs-mode 'mode-class 'special)
 (defun fetchmacs-mode ()
-"View all of your fetchnotes and act on them.
+  "View all of your fetchnotes and act on them.
 
 \\{fetchmacs-mode-map}"
   (kill-all-local-variables)
@@ -49,5 +49,6 @@
     (define-key map (kbd "?") 'describe-mode)
     (define-key map (kbd "h") 'describe-mode)
     (define-key map (kbd "q") 'quit-window)
-    (define-key map (kbd "z") 'kill-this-buffer)
-    ))
+    (define-key map (kbd "z") 'kill-this-buffer)))
+
+
