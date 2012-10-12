@@ -1,5 +1,7 @@
 (load-file "auth.el")
 
+(global-set-key (kbd "C-c C-f a") 'fetchmacs-create-new-note)
+(global-set-key (kbd "C-c C-f C-a") 'fetchmacs-create-new-note)
 (defvar fetchmacs-all-notes nil)
 (defvar fetchmacs-edit-buffer "*fetchmacs-edit-buffer*")
 (defvar fetchmacs-buffer-internal nil)
@@ -73,10 +75,6 @@
     (erase-buffer)
     (bury-buffer)
     (fetchmacs-restore-window-config)))
-
-(global-set-key (kbd "M-s") 'save-buffer)
-(global-set-key (kbd "C-c C-f a") 'fetchmacs-create-new-note)
-(global-set-key (kbd "C-c C-f C-a") 'fetchmacs-create-new-note)
 
 (defvar fetchmacs-edit-mode-map
   (let ((map (make-sparse-keymap)))
