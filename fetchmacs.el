@@ -1,6 +1,9 @@
 (load-file "auth.el")
 
 (defvar fetchmacs-all-notes nil)
+(defvar fetchmacs-edit-buffer "*fetchmacs-edit-buffer*")
+(defvar fetchmacs-buffer-internal nil)
+(defvar fetchmacs-old-window-config nil)
 (fetchmacs-provision-keys-for-user fetchmacs-user-email fetchmacs-user-pass)
 (fetchmacs-get-notes-for-author fetchmacs-author)
 
@@ -52,3 +55,66 @@
     (define-key map (kbd "z") 'kill-this-buffer)))
 
 
+(defun fetchmacs-create-new-note ()
+  (interactive)
+  (fetchmacs-save-window-config)
+  (let ((edit-buffer (get-buffer-create fetchmacs-edit-buffer)))
+    (pop-to-buffer edit-buffer)
+    (fetchmacs-edit-mode)))
+
+(defun fetchmacs-save-note ()
+  (interactive)
+  (let ((path (concat "authors/" fetchmacs-author "/notes"))
+        (note-body (buffer-substring (point-min) (point-max)))
+        (old-buffer (fetchmacs-buffer-internal))
+        (args nil))
+    (setq args `(("text" . ,note-body)))
+    (fetchmacs-get-json-from-http-request path args "POST")
+    (erase-buffer)
+    (bury-buffer)
+    (fetchmacs-restore-window-config)))
+
+(global-set-key (kbd "M-s") 'save-buffer)
+(global-set-key (kbd "C-c C-f a") 'fetchmacs-create-new-note)
+(global-set-key (kbd "C-c C-f C-a") 'fetchmacs-create-new-note)
+
+(defvar fetchmacs-edit-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c C-c") 'fetchmacs-save-note)
+    (define-key map (kbd "C-c C-k") 'fetchmacs-cancel-edit)
+    (define-key map (kbd "C-x C-s") (lambda ()
+                                      (interactive)
+                                      (message "Not saved. Use C-c C-c to save this note.")))
+    map))
+
+(define-derived-mode fetchmacs-edit-mode text-mode "Fetchmacs Edit")
+
+(defun fetchmacs-cancel-edit ()
+  (interactive)
+  (erase-buffer)
+  (bury-buffer)
+  (fetchmacs-restore-window-config))
+
+(defun fetchmacs-save-window-config ()
+  (setq fetchmacs-old-window-config
+        (current-window-configuration)))
+
+(defun fetchmacs-restore-window-config ()
+  (when fetchmacs-old-window-config
+    (set-window-configuration fetchmacs-old-window-config)
+    (setq fetchmacs-old-window-config nil)))
+
+(defun fetchmacs-print-notes (&optional filter)
+  (interactive)
+  (when fetchmacs-all-notes
+    (mapcar (lambda (single-note)
+              (let ((note-text (cdr (assoc 'text single-note)))
+                    (buffer (current-buffer)))
+                (if (and (stringp filter))
+                    (progn
+                      (when (string-match-p filter note-text)
+                        (princ note-text buffer)
+                        (princ "\n\n----\n\n" buffer)))
+                  (princ note-text buffer)
+                  (princ "\n\n----\n\n" buffer))))
+            fetchmacs-all-notes)))
