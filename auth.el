@@ -16,12 +16,13 @@
       (kill-buffer (current-buffer)))
     json))
 
-(defun fetchmacs-get-json-from-http-request (url args request-method)
+(defun fetchmacs-get-json-from-http-request (path args request-method)
   "Send ARGS to URL as a POST request; returns JSON body."
   (when (fetchmacs-request-needs-signature url)
     (let ((signature (fetchmacs-construct-signature args)))
       (add-to-list 'args `("signature" . ,signature))))
-  (let ((url-request-method request-method)
+  (let ((url (concat fetchmacs-hostname path))
+        (url-request-method request-method)
         (url-request-extra-headers
          '(("Content-Type" . "application/x-www-form-urlencoded")))
         (url-request-data
@@ -47,7 +48,7 @@
 fetchnotes"
   ;; TODO: change return of this function to say yes or no indicating
   ;; whether it succeeded...?
-  (let ((url (concat fetchmacs-hostname fetchmacs-provision-keys-url))
+  (let ((url fetchmacs-provision-keys-url)
         (args `(("name" . ,fetchmacs-project-name)
                 ("email" . ,fetchmacs-dev-email)
                 ("username" . ,user)

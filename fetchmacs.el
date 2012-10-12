@@ -5,10 +5,10 @@
 (fetchmacs-get-notes-for-author fetchmacs-author)
 
 (defun fetchmacs-get-notes-for-author (author)
-  (let ((url (concat fetchmacs-hostname "authors/" author "/notes"))
+  (let ((path (concat "authors/" author "/notes"))
         (response nil)
         (json-response-as-alist nil))
-    (setq json-response-as-alist (fetchmacs-get-json-from-http-request url nil "GET"))
+    (setq json-response-as-alist (fetchmacs-get-json-from-http-request path nil "GET"))
     (when (string= (cdr (assoc 'status json-response-as-alist)) 'success))
     (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist)))))
 
