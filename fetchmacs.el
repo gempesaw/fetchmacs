@@ -1,13 +1,9 @@
 (load-file "auth.el")
 
-(global-set-key (kbd "C-c C-f a") 'fetchmacs-create-new-note)
-(global-set-key (kbd "C-c C-f C-a") 'fetchmacs-create-new-note)
 (defvar fetchmacs-all-notes nil)
 (defvar fetchmacs-edit-buffer "*fetchmacs-edit-buffer*")
 (defvar fetchmacs-buffer-internal nil)
 (defvar fetchmacs-old-window-config nil)
-(fetchmacs-provision-keys-for-user fetchmacs-user-email fetchmacs-user-pass)
-(fetchmacs-get-notes-for-author fetchmacs-author)
 
 (defun fetchmacs-get-notes-for-author (author)
   (let ((path (concat "authors/" author "/notes"))
