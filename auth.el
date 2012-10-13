@@ -94,5 +94,4 @@ fetchnotes"
       (mapcar (lambda (key)
                 (let ((value (cdr (assoc key alist))))
                   (append `((,key . ,value)) sorted-cars)))
-              (sort cars 'string<))
-      )))
+              (sort cars 'string<)))))
