@@ -116,6 +116,22 @@
                 (princ "\n----\n" buffer))))
           fetchmacs-all-notes)))
 
+(defun fetchmacs-goto-previous-note ()
+  (interactive)
+  (when (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer)))
+    (beginning-of-line 1)
+    (search-backward "----")
+    (next-line -1 1)
+    (beginning-of-line 1))
+
+(defun fetchmacs-goto-next-note ()
+  (interactive)
+  (when (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer)))
+    (beginning-of-line 1)
+    (search-forward "----")
+    (next-line 1 1)
+    (beginning-of-line 1)))
+
 (defun fetchmacs-view-edit-note-at-point (&optional action)
   (interactive)
   (fetchmacs-save-window-config)
