@@ -13,23 +13,23 @@
     (when (string= (cdr (assoc 'status json-response-as-alist)) 'success))
     (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist)))))
 
-(defvar fetchmacs-mode-hook nil)
-(put 'fetchmacs-mode 'mode-class 'special)
-(defun fetchmacs-mode ()
+(defvar fetchmacs-view-mode-hook nil)
+(put 'fetchmacs-view-mode 'mode-class 'special)
+(defun fetchmacs-view-mode ()
   "View all of your fetchnotes and act on them.
 
-\\{fetchmacs-mode-map}"
+\\{fetchmacs-view-mode-map}"
   (kill-all-local-variables)
   (buffer-disable-undo)
   (setq buffer-read-only t
         truncate-lines t
-        major-mode 'fetchnotes-mode
-        mode-name "Fetchnotes"
-        mode-line-process "")
-  (use-local-map fetchmacs-mode-map)
-  (run-mode-hooks 'fetchmacs-mode-hook))
+        major-mode 'fetchmacs-view-mode
+        mode-name "Fetchmacs"
+        mode-line-process "Fetch")
+  (use-local-map fetchmacs-view-mode-map)
+  (run-mode-hooks 'fetchmacs-view-mode-hook))
 
-(defvar fetchmacs-mode-map
+(defvar fetchmacs-view-mode-map
   (let ((map (make-keymap)))
     (suppress-keymap map)
     (define-key map (kbd "n") 'fetchmacs-goto-next-note)
@@ -50,7 +50,8 @@
     (define-key map (kbd "?") 'describe-mode)
     (define-key map (kbd "h") 'describe-mode)
     (define-key map (kbd "q") 'quit-window)
-    (define-key map (kbd "z") 'kill-this-buffer)))
+    (define-key map (kbd "z") 'kill-this-buffer)
+    map))
 
 
 (defun fetchmacs-create-new-note ()
