@@ -135,6 +135,15 @@
         (fetchmacs-view-notes filter)
       (message "hmm, something's wrong. sorry."))))
 
+(defun fetchmacs-refresh ()
+  (interactive)
+  (if (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer))
+      (progn
+        (fetchmacs-get-notes-for-author fetchmacs-author)
+        (fetchmacs-view-notes)
+        (message "Refreshing your notes!"))
+    (message "Refusing to refresh, try calling fetchmacs-refresh from within a fetchmacs-view-mode buffer.")))
+
 (defun fetchmacs-goto-previous-note ()
   (interactive)
   (when (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer)))
