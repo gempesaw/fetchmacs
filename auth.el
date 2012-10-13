@@ -6,6 +6,11 @@
 (defvar fetchmacs-private-key nil)
 (defvar fetchmacs-author nil)
 
+(defvar fetchmacs-provision-keys-url "keys")
+(defvar fetchmacs-dev-email "gempesaw@gmail.com")
+(defvar fetchmacs-hostname "http://www.fetchnotes.com/")
+(defvar fetchmacs-project-name "fetchmacs")
+
 (defun fetchmacs-extract-json-from-http-response (buffer)
   (let ((json nil))
     (save-excursion
