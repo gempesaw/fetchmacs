@@ -2,6 +2,8 @@
 
 (defvar fetchmacs-all-notes nil)
 (defvar fetchmacs-edit-buffer "*fetchmacs-edit-buffer*")
+(defvar fetchmacs-view-notes-buffer "*fetchmacs-view-notes-buffer*")
+(defvar fetchmacs-edit-action nil)
 (defvar fetchmacs-buffer-internal nil)
 (defvar fetchmacs-old-window-config nil)
 
@@ -38,9 +40,9 @@
 
     (define-key map (kbd "c") 'fetchmacs-create-new-note)
 
-    (define-key map (kbd "e") 'fetchmacs-edit-note-at-point)
-    (define-key map (kbd "o") 'fetchmacs-edit-note-at-point)
-    (define-key map (kbd "RET") 'fetchmacs-edit-note-at-point)
+    (define-key map (kbd "e") 'fetchmacs-view-edit-note-at-point)
+    (define-key map (kbd "o") 'fetchmacs-view-edit-note-at-point)
+    (define-key map (kbd "RET") 'fetchmacs-view-edit-note-at-point)
 
     (define-key map (kbd "/") 'fetchmacs-search)
     (define-key map (kbd "t") 'fetchmacs-filter-by-tag)
@@ -114,3 +116,19 @@
                 (princ "\n----\n" buffer))))
           fetchmacs-all-notes)))
 
+(defun fetchmacs-view-edit-note-at-point (&optional action)
+  (interactive)
+  (fetchmacs-save-window-config)
+  (let ((note-properties (get-text-property (point) 'note-properties))
+        (note-id-to-edit nil)
+        (old-note-text nil))
+    (setq note-id-to-edit (cdr (assq '_id note-properties)))
+    (setq old-note-text (cdr (assq 'text note-properties)))
+    (pop-to-buffer (get-buffer-create fetchmacs-edit-buffer))
+    (erase-buffer)
+    (insert old-note-text)
+    (make-local-variable fetchmacs-edit-action)
+    (if (stringp action)
+        (setq fetchmacs-edit-action action)
+      (setq fetchmacs-edit-action "edit"))
+    (fetchmacs-edit-mode)))
