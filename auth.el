@@ -23,7 +23,7 @@
 
 (defun fetchmacs-get-json-from-http-request (path args request-method)
   "Send ARGS to URL as a POST request; returns JSON body."
-  (when (fetchmacs-request-needs-signature-p url)
+  (when (fetchmacs-request-needs-signature-p path)
     (let ((signature (fetchmacs-construct-signature args)))
       (add-to-list 'args `("signature" . ,signature))))
   (let ((url (concat fetchmacs-hostname path))
@@ -42,7 +42,7 @@
       (url-retrieve-synchronously url)))))
 
 (defun fetchmacs-request-needs-signature-p (url)
-  (not (string= "http://www.fetchnotes.com/keys" url)))
+  (not (string= fetchmacs-provision-keys-url url)))
 
 (defun fetchmacs-parse-json-as-alist (json)
   (let ((json-object-type 'alist))
