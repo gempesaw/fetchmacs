@@ -158,7 +158,7 @@
     (beginning-of-line 1)
     (search-forward "----")
     (next-line 1 1)
-    (beginning-of-line 1)))
+    (beginning-of-line 1))
 
 (defun fetchmacs-view-edit-note-at-point (&optional action)
   (interactive)
