@@ -71,14 +71,26 @@
   (interactive)
   (let ((path (concat "authors/" fetchmacs-author "/notes"))
         (note-body (buffer-substring (point-min) (point-max)))
+        (save-response nil)
         (args nil))
     (if fetchmacs-editing-existing-note-p
         (setq path (concat path "/" fetchmacs-existing-note-id)))
     (setq args `(("text" . ,note-body)))
-    (fetchmacs-get-json-from-http-request path args "POST")
+    (setq save-response (fetchmacs-get-json-from-http-request path args "POST"))
+    (if (string= (cdr (assoc 'status save-response)) 'success)
+        (let ((fetchmacs-single-note
+               (cdr (assoc 'response save-response)))
+              (note-id nil))
+          (setq note-id (cdr (assoc '_id fetchmacs-single-note)))
+          (setq fetchmacs-all-notes
+                (vconcat (vector fetchmacs-single-note)
+                         (remove* note-id fetchmacs-all-notes
+                                  :key 'cdar
+                                  :test 'string=)))))
     (erase-buffer)
     (bury-buffer)
-    (fetchmacs-restore-window-config)))
+    (fetchmacs-restore-window-config)
+    (fetchmacs-view-notes)))
 
 (defvar fetchmacs-edit-mode-map
   (let ((map (make-sparse-keymap)))
