@@ -72,6 +72,8 @@
   (let ((path (concat "authors/" fetchmacs-author "/notes"))
         (note-body (buffer-substring (point-min) (point-max)))
         (args nil))
+    (if fetchmacs-editing-existing-note-p
+        (setq path (concat path "/" fetchmacs-existing-note-id)))
     (setq args `(("text" . ,note-body)))
     (fetchmacs-get-json-from-http-request path args "POST")
     (erase-buffer)
