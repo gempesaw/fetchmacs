@@ -24,6 +24,7 @@
 (defun fetchmacs-get-json-from-http-request (path args request-method)
   "Send ARGS to URL as a POST request; returns JSON body."
   (when (fetchmacs-request-needs-signature-p path)
+    (add-to-list 'args `("public_key" . ,fetchmacs-public-key))
     (let ((signature (fetchmacs-construct-signature args)))
       (add-to-list 'args `("signature" . ,signature))))
   (let ((url (concat fetchmacs-hostname path))
