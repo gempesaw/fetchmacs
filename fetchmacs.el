@@ -8,12 +8,13 @@
 (defvar fetchmacs-old-window-config nil)
 
 (defun fetchmacs-get-notes-for-author (author)
+  (setq fetchmacs-all-notes nil)
   (let ((path (concat "authors/" author "/notes"))
         (response nil)
         (json-response-as-alist nil))
     (setq json-response-as-alist (fetchmacs-get-json-from-http-request path nil "GET"))
-    (when (string= (cdr (assoc 'status json-response-as-alist)) 'success))
-    (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist)))))
+    (when (string= (cdr (assoc 'status json-response-as-alist)) 'success)
+      (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist))))))
 
 (defvar fetchmacs-view-mode-hook nil)
 (put 'fetchmacs-view-mode 'mode-class 'special)
