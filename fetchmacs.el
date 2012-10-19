@@ -184,3 +184,11 @@
     (make-local-variable 'fetchmacs-existing-note-id)
     (setq fetchmacs-existing-note-id note-id-to-edit)))
 
+(defun fetchmacs-delete-note-at-point ()
+  (interactive)
+  (let ((note-properties (get-text-property (point) 'note-properties))
+        (path (concat "authors/" fetchmacs-author "/notes/"))
+        (args '(("delete" . "true"))))
+    (setq path (concat path (cdr (assq '_id note-properties))))
+    (message path)
+    (fetchmacs-get-json-from-http-request path args "POST")))
