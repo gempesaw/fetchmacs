@@ -162,7 +162,7 @@
       (progn
         (fetchmacs-get-notes-for-author fetchmacs-author)
         (fetchmacs-view-notes)
-        (message "Refreshing your notes!"))
+        (message "Refreshed your notes!"))
     (message "Refusing to refresh, try calling fetchmacs-refresh from within a fetchmacs-view-mode buffer.")))
 
 (defun fetchmacs-goto-previous-note ()
