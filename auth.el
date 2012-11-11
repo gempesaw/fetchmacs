@@ -38,6 +38,8 @@
                               (url-hexify-string (cdr arg))))
                     args
                     "&")))
+    (if (string= request-method "GET")
+        (setq url (concat url "?" url-request-data)))
     (fetchmacs-parse-json-as-alist
      (fetchmacs-extract-json-from-http-response
       (url-retrieve-synchronously url)))))
