@@ -200,17 +200,18 @@
 
 (defun fetchmacs-delete-note-at-point ()
   (interactive)
-  (let ((note-properties (get-text-property (point) 'note-properties))
-        (path (concat "authors/" fetchmacs-author "/notes/"))
-        (args '(("delete" . "true")))
-        (note-id nil))
-    (setq note-id (cdr (assq '_id note-properties)))
-    (setq path (concat path note-id))
-    (message path)
-    (setq delete-response (fetchmacs-get-json-from-http-request path args "POST"))
-    (if (string= (cdr (assoc 'status delete-response)) 'success)
-        (setq fetchmacs-all-notes
-              (remove* note-id fetchmacs-all-notes
-                                  :key 'cdar
-                                  :test 'string=)))
-    (fetchmacs-view-notes)))
+  (if (y-or-n-p "Are you sure you want to delete this note? ")
+      (let ((note-properties (get-text-property (point) 'note-properties))
+            (path (concat "authors/" fetchmacs-author "/notes/"))
+            (args '(("delete" . "true")))
+            (note-id nil))
+        (setq note-id (cdr (assq '_id note-properties)))
+        (setq path (concat path note-id))
+        (message path)
+        (setq delete-response (fetchmacs-get-json-from-http-request path args "POST"))
+        (if (string= (cdr (assoc 'status delete-response)) 'success)
+            (setq fetchmacs-all-notes
+                  (remove* note-id fetchmacs-all-notes
+                           :key 'cdar
+                           :test 'string=)))
+        (fetchmacs-view-notes))))
