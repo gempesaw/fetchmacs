@@ -222,10 +222,10 @@
     (beginning-of-thing 'word)
     (let ((filter nil))
       (if (string= "#" (string (preceding-char)))
-          (setq filter (thing-at-point 'word))
-        (setq filter (read-string "What do you want to search for? ")))
-      (unless (eq nil filter)
-        (fetchmacs-view-notes filter)))))
+          (progn
+            (setq filter (thing-at-point 'word))
+            (fetchmacs-view-notes filter))
+        (fetchmacs-search)))))
 
 (defun fetchmacs-search ()
   (interactive)
