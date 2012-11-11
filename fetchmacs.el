@@ -226,3 +226,8 @@
         (setq filter (read-string "What do you want to search for? ")))
       (unless (eq nil filter)
         (fetchmacs-view-notes filter)))))
+
+(defun fetchmacs-search ()
+  (interactive)
+  (let ((filter (read-string "What do you want to search for? ")))
+    (fetchmacs-view-notes filter)))
