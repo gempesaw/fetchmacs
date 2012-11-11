@@ -220,14 +220,10 @@
   (interactive)
   (save-excursion
     (beginning-of-thing 'word)
-    (let ((filter nil))
-      (if (string= "#" (string (preceding-char)))
-          (progn
-            (setq filter (thing-at-point 'word))
-            (fetchmacs-view-notes filter))
-        (fetchmacs-search)))))
+    (if (string= "#" (string (preceding-char)))
+        (fetchmacs-view-notes (thing-at-point 'word)))
+    (fetchmacs-search)))
 
 (defun fetchmacs-search ()
   (interactive)
-  (let ((filter (read-string "What do you want to search for? ")))
-    (fetchmacs-view-notes filter)))
+    (fetchmacs-view-notes (read-string "What do you want to search for? "))))
