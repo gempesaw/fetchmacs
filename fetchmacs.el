@@ -204,6 +204,7 @@
       (let ((note-properties (get-text-property (point) 'note-properties))
             (path (concat "authors/" fetchmacs-author "/notes/"))
             (args '(("delete" . "true")))
+            (delete-response nil)
             (note-id nil))
         (setq note-id (cdr (assq '_id note-properties)))
         (setq path (concat path note-id))
