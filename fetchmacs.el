@@ -326,4 +326,4 @@ fetchnotes"
 
 (defun fetchmacs-search ()
   (interactive)
-    (fetchmacs-view-notes (read-string "What do you want to search for? "))))
+    (fetchmacs-view-notes (read-string "What do you want to search for? ")))
