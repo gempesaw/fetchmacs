@@ -4,7 +4,7 @@ A major mode for interfacing with [Fetchnotes](http://www.fetchnotes.com) inside
 
 ## Installation
 
-    (require 'fetchmacs.el)
+    (load-file 'fetchmacs.el)
 
 ## Authentication
 
