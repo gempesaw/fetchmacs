@@ -148,7 +148,8 @@ fetchnotes"
     (define-key map (kbd "/") 'fetchmacs-search)
     (define-key map (kbd "t") 'fetchmacs-filter-by-tag)
 
-    (define-key map (kbd "d") 'fetchmacs-delete-note-at-point)
+    (define-key map (kbd "D") 'fetchmacs-delete-note-at-point)
+    (define-key map (kbd "k") 'fetchmacs-delete-note-at-point)
 
     (define-key map (kbd "?") 'describe-mode)
     (define-key map (kbd "h") 'describe-mode)
