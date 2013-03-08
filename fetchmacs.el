@@ -1,6 +1,6 @@
 (require 'url)
 (require 'json)
-(load-file "fetchmacs-creds.el")
+;; (load-file "fetchmacs-creds.el")
 
 (defvar fetchmacs-public-key nil)
 (defvar fetchmacs-private-key nil)
