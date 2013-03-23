@@ -23,6 +23,10 @@
 (require 'json)
 (require 'erc-button)
 
+;; fill this in!
+(defvar fetchmacs-user-email nil)
+(defvar fetchmacs-user-pass nil)
+
 (defvar fetchmacs-public-key nil)
 (defvar fetchmacs-private-key nil)
 (defvar fetchmacs-author nil)
@@ -39,6 +43,15 @@
 (defvar fetchmacs-existing-note-id nil)
 (defvar fetchmacs-buffer-internal nil)
 (defvar fetchmacs-old-window-config nil)
+
+(defun fetchmacs-get-creds (&optional force-reset)
+  (interactive "p")
+  (if (or (eq nil fetchmacs-user-email)
+          (eq nil fetchmacs-user-pass)
+          (not (eq nil force-reset)))
+      (progn
+        (setq fetchmacs-user-email (read-from-minibuffer "Fetchnotes Username/Email: "))
+        (setq fetchmacs-user-pass (read-passwd "Fetchnotes Password: ")))))
 
 (defun fetchmacs-extract-json-from-http-response (buffer)
   (let ((json nil))
@@ -130,12 +143,16 @@ fetchnotes"
 
 (defun fetchmacs-get-notes-for-author (author)
   (setq fetchmacs-all-notes nil)
-  (let ((path (concat "authors/" author "/notes"))
-        (response nil)
-        (json-response-as-alist nil))
-    (setq json-response-as-alist (fetchmacs-get-json-from-http-request path nil "GET"))
-    (when (string= (cdr (assoc 'status json-response-as-alist)) 'success)
-      (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist))))))
+  (if (eq nil author)
+      (progn
+        (message "Sorry, we couldn't log in!")
+        nil)
+    (let ((path (concat "authors/" author "/notes"))
+          (response nil)
+          (json-response-as-alist nil))
+      (setq json-response-as-alist (fetchmacs-get-json-from-http-request path nil "GET"))
+      (when (string= (cdr (assoc 'status json-response-as-alist)) 'success)
+        (setq fetchmacs-all-notes (cdr (assoc 'response json-response-as-alist)))))))
 
 (defvar fetchmacs-view-mode-hook nil)
 (put 'fetchmacs-view-mode 'mode-class 'special)
@@ -259,6 +276,7 @@ fetchnotes"
 
 (defun fetchmacs-view-notes (&optional filter)
   (interactive)
+  (fetchmacs-get-creds nil)
   (if (and (stringp fetchmacs-private-key)
            (vectorp fetchmacs-all-notes))
       (let ((view-buffer (get-buffer-create fetchmacs-view-notes-buffer)))
@@ -272,11 +290,12 @@ fetchnotes"
     (progn
       (fetchmacs-provision-keys-for-user fetchmacs-user-email fetchmacs-user-pass)
       (fetchmacs-get-notes-for-author fetchmacs-author)
-      (message "yo shit broke, let's try that again")
+      (message "Unfortunately we couldn't log in; please re-enter your credentials")
+      (fetchmacs-get-creds t)
       (if (and (stringp fetchmacs-private-key)
                (vectorp fetchmacs-all-notes))
           (fetchmacs-view-notes filter)
-        (message "hmm, something's wrong. sorry.")))))
+        (message "Sorry, still can't log in! Invoke fetchmacs-view-notes again, or fetchmacs-get-creds to set your auth manually :(")))))
 
 (defun fetchmacs-refresh ()
   (interactive)
