@@ -4,7 +4,7 @@
 
 ;; Author: Daniel Gempesaw <gempesaw@gmail.com>
 ;; URL: http://github.com/gempesaw/fetchmacs
-;; Version: 1.0.0
+;; Version: 1.0.1
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -222,7 +222,7 @@ fetchnotes"
           (setq note-id (cdr (assoc '_id fetchmacs-single-note)))
           (setq fetchmacs-all-notes
                 (vconcat (vector fetchmacs-single-note)
-                         (cl-remove* note-id fetchmacs-all-notes
+                         (cl-remove note-id fetchmacs-all-notes
                                   :key 'cdar
                                   :test 'string=)))))
     (erase-buffer)
@@ -353,7 +353,7 @@ fetchnotes"
         (setq delete-response (fetchmacs-get-json-from-http-request path args "POST"))
         (if (string= (cdr (assoc 'status delete-response)) 'success)
             (setq fetchmacs-all-notes
-                  (cl-remove* note-id fetchmacs-all-notes
+                  (cl-remove note-id fetchmacs-all-notes
                            :key 'cdar
                            :test 'string=)))
         (fetchmacs-view-notes))))
