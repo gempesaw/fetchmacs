@@ -27,7 +27,7 @@ To save your auth across sessions, you'll want to:
 
 ## Usage
 
-`fetchmacs-view-notes` - Open your notes in `\*fetchmacs-view-notes-buffer\*`
+`M-x fetchmacs-view-notes RET` - Open your notes in `*fetchmacs-view-notes-buffer*`
 
 From here, I tried to imitate [magit](http://philjackson.github.com/magit/) and `dired` controls where it made sense:
 
