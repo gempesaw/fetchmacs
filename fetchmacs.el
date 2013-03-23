@@ -1,6 +1,6 @@
 (require 'url)
 (require 'json)
-;; (load-file "fetchmacs-creds.el")
+(require 'erc-button)
 
 (defvar fetchmacs-public-key nil)
 (defvar fetchmacs-private-key nil)
@@ -246,6 +246,7 @@ fetchnotes"
           (setq buffer-read-only nil)
           (erase-buffer)
           (fetchmacs-print-notes filter)
+          (erc-button-add-buttons)
           (fetchmacs-view-mode)))
     (progn
       (fetchmacs-provision-keys-for-user fetchmacs-user-email fetchmacs-user-pass)
