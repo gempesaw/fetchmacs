@@ -19,6 +19,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+(eval-when-compile (require 'cl))
 (require 'url)
 (require 'json)
 (require 'erc-button)
@@ -55,8 +56,7 @@
 
 (defun fetchmacs-extract-json-from-http-response (buffer)
   (let ((json nil))
-    (save-excursion
-      (set-buffer buffer)
+    (with-current-buffer  buffer
       (goto-char (point-min))
       (re-search-forward "^$" nil 'move)
       (setq json (buffer-substring-no-properties (point) (point-max)))
@@ -222,7 +222,7 @@ fetchnotes"
           (setq note-id (cdr (assoc '_id fetchmacs-single-note)))
           (setq fetchmacs-all-notes
                 (vconcat (vector fetchmacs-single-note)
-                         (remove* note-id fetchmacs-all-notes
+                         (cl-remove* note-id fetchmacs-all-notes
                                   :key 'cdar
                                   :test 'string=)))))
     (erase-buffer)
@@ -311,7 +311,7 @@ fetchnotes"
   (when (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer)))
   (beginning-of-line 1)
   (search-backward "----")
-  (next-line -1 1)
+  (forward-line -1)
   (beginning-of-line 1))
 
 (defun fetchmacs-goto-next-note ()
@@ -319,7 +319,7 @@ fetchnotes"
   (when (equal (current-buffer) (get-buffer-create fetchmacs-view-notes-buffer)))
   (beginning-of-line 1)
   (search-forward "----")
-  (next-line 1 1)
+  (forward-line 1)
   (beginning-of-line 1))
 
 (defun fetchmacs-view-edit-note-at-point ()
@@ -353,7 +353,7 @@ fetchnotes"
         (setq delete-response (fetchmacs-get-json-from-http-request path args "POST"))
         (if (string= (cdr (assoc 'status delete-response)) 'success)
             (setq fetchmacs-all-notes
-                  (remove* note-id fetchmacs-all-notes
+                  (cl-remove* note-id fetchmacs-all-notes
                            :key 'cdar
                            :test 'string=)))
         (fetchmacs-view-notes))))
@@ -372,4 +372,4 @@ fetchnotes"
 
 (provide 'fetchmacs)
 
-;;; fetchmacs-mode.el ends here
+;;; fetchmacs.el ends here
