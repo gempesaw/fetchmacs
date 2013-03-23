@@ -20,6 +20,11 @@ You can invoke `fetchnotes-get-creds` to be prompted for your fetchnotes login i
 
 If your auth is incorrect, either `M-x fetchnotes-get-creds RET` or eval `(fetchnotes-get-creds t)` to force a reset of your credentials.
 
+To save your auth across sessions, you'll want to:
+
+    (setq fetchmacs-user-email "email@addr.ess")
+    (setq fetchmacs-user-pass "password")
+
 ## Usage
 
 `fetchmacs-view-notes` - Open your notes in `\*fetchmacs-view-notes-buffer\*`
