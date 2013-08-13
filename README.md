@@ -2,6 +2,8 @@
 
 A major mode for interfacing with [Fetchnotes](http://www.fetchnotes.com) inside of Emacs.
 
+**Current Status: _not working!_ (see #1) **
+
 ## Installation
 
     (require 'package)
