@@ -165,8 +165,7 @@ fetchnotes"
   (setq buffer-read-only t
         truncate-lines t
         major-mode 'fetchmacs-view-mode
-        mode-name "Fetchmacs"
-        mode-line-process "Fetch")
+        mode-name "Fetchmacs")
   (use-local-map fetchmacs-view-mode-map)
   (run-mode-hooks 'fetchmacs-view-mode-hook))
 
