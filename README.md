@@ -1,8 +1,12 @@
+# Current Status - Completely Broken!
+
+Fetchnotes have recently (?) changed their API, so this project is completely broken! None of the API endpoints that fetchmacs uses are valid anymore, as they've moved to an entirely different backend. So, in the meantime, head on over to http://www.fetchnotes.com :)
+
+---
+
 # Fetchmacs
 
 A major mode for interfacing with [Fetchnotes](http://www.fetchnotes.com) inside of Emacs.
-
-**Current Status: _not working!_ (see #1) **
 
 ## Installation
 
