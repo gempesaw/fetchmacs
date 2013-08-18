@@ -34,7 +34,7 @@ To save your auth across sessions, you'll want to:
 From here, I tried to imitate [magit](http://philjackson.github.com/magit/) and `dired` controls where it made sense:
 
 * `RET` : `fetchmacs-view-edit-note-at-point`
-* `/` : `fetchmacs-search`
+* `/` : `fetchmacs-search` - like in Gmail's shortcuts
 * `c` : `fetchmacs-create-new-note`
 * `d` : `fetchmacs-delete-note-at-point`
 * `e` : `fetchmacs-view-edit-note-at-point`
