@@ -18,9 +18,9 @@ A major mode for interfacing with [Fetchnotes](http://www.fetchnotes.com) inside
 From here, I tried to imitate [magit](http://philjackson.github.com/magit/)'s controls:
 
 * `RET` : `fetchmacs-view-edit-note-at-point`
-* `/` : `fetchmacs-search`
+* `/` : `fetchmacs-search` - like in Gmail's shortcuts
 * `c` : `fetchmacs-create-new-note`
-* `d` : `fetchmacs-delete-note-at-point` (this should probably be `D` like dired or `k` like magit, not `d` like neither of them...)
+* `d` : `fetchmacs-delete-note-at-point`
 * `e` : `fetchmacs-view-edit-note-at-point`
 * `g` : `fetchmacs-refresh`
 * `n` : `fetchmacs-goto-next-note`
