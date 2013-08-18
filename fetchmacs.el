@@ -127,8 +127,7 @@ fetchnotes"
   (setq buffer-read-only t
         truncate-lines t
         major-mode 'fetchmacs-view-mode
-        mode-name "Fetchmacs"
-        mode-line-process "Fetch")
+        mode-name "Fetchmacs")
   (use-local-map fetchmacs-view-mode-map)
   (run-mode-hooks 'fetchmacs-view-mode-hook))
 
@@ -250,11 +249,11 @@ fetchnotes"
     (progn
       (fetchmacs-provision-keys-for-user fetchmacs-user-email fetchmacs-user-pass)
       (fetchmacs-get-notes-for-author fetchmacs-author)
-      (message "yo shit broke, let's try that again")
+      (message "Attempting to log in to fetchnotes...")
       (if (and (stringp fetchmacs-private-key)
                (vectorp fetchmacs-all-notes))
           (fetchmacs-view-notes filter)
-        (message "hmm, something's wrong. sorry.")))))
+        (message "Cant fetch your notes, darn!")))))
 
 (defun fetchmacs-refresh ()
   (interactive)
